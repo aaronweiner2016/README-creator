@@ -16,10 +16,10 @@ const questions = [
         name: 'description',
     },    
     {
-        type: 'checkbox',
+        type: 'input',
         message: 'Install npm i',
         name: 'npmi',
-        choices: 'npm i',
+        default: 'npm i',
     },
     {
         type: 'input',
@@ -27,9 +27,11 @@ const questions = [
         name: 'usage',
     },
     {
-        type: 'input',
+        type: 'list',
         message: 'What license is this project under?',
         name: 'license',
+        default: "MIT",
+        choices: ["MIT", "GPLv2", "Apache", "GPLv3", "BSD 3-clause"]
     },
     {
         type: 'input',
@@ -39,7 +41,8 @@ const questions = [
     {
         type: 'prompt',
         message: 'To run tests, enter the following command',
-        name: 'npm test',
+        name: 'npmTest',
+        default: 'npm run test'
     },
     {
         type: 'input',
@@ -56,7 +59,7 @@ const questions = [
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
 
-    fs.writeFile('README.md', generateMarkdown(fileName, data), (err) =>
+    fs.writeFile(fileName, generateMarkdown(data), (err) =>
             err ? console.error(err) : console.log('Success!')
         );
 }
@@ -66,7 +69,9 @@ function init() {
     inquirer
         .prompt(questions)
         .then((response) =>
-            writeToFile(response)
+            {   console.log(response);
+                writeToFile("output/README.md", response)}
+            
         )
 }
 
